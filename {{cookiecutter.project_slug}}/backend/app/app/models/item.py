@@ -22,13 +22,14 @@ class ItemUpdate(ItemBase):
 # Properties to return to client
 class Item(ItemBase):
     id: Optional[PyObjectId]= Field(default_factory=PyObjectId, alias="_id")
+    # id: Optional[str]= Field(alias="_id")
     title: str
-    owner_email: str
+    owner_id: str
     
     class Config:
         json_encoders = {ObjectId: str}
         allow_population_by_field_name = True
-        arbitrary_types_allowed = True
+        # arbitrary_types_allowed = True
 
 
 # Properties properties stored in DB

@@ -23,7 +23,7 @@ def read_items(
         items = crud.item.get_multi(skip=skip, limit=limit)
     else:
         items = crud.item.get_multi_by_owner(
-            owner_email=current_user.email, skip=skip, limit=limit
+            owner_id=current_user.email, skip=skip, limit=limit
         )
     return items
 
@@ -37,7 +37,7 @@ def create_item(
     """
     Create new item.
     """
-    item = crud.item.create_with_owner(item_in=item_in, owner_email=current_user.email)
+    item = crud.item.create_with_owner(obj_in=item_in, owner_id=current_user.email)
     return item
 
 
@@ -54,7 +54,7 @@ def update_item(
     item = crud.item.get(id=id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
-    if not crud.user.is_superuser(current_user) and (item.owner_email != current_user.email):
+    if not crud.user.is_superuser(current_user) and (item.owner_id != current_user.email):
         raise HTTPException(status_code=400, detail="Not enough permissions")
     item = crud.item.update(db_obj=item, obj_in=item_in)
     return item
@@ -72,7 +72,7 @@ def read_item(
     item = crud.item.get(id=id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
-    if not crud.user.is_superuser(current_user) and (item.owner_email != current_user.email):
+    if not crud.user.is_superuser(current_user) and (item.owner_id != current_user.email):
         raise HTTPException(status_code=400, detail="Not enough permissions")
     return item
 
@@ -89,7 +89,7 @@ def delete_item(
     item = crud.item.get(id=id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
-    if not crud.user.is_superuser(current_user) and (item.owner_email != current_user.email):
+    if not crud.user.is_superuser(current_user) and (item.owner_id != current_user.email):
         raise HTTPException(status_code=400, detail="Not enough permissions")
     item = crud.item.remove(id=id)
     return item

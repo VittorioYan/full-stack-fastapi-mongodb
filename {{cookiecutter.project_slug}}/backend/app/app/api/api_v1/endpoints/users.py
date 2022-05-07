@@ -25,7 +25,6 @@ def read_users(
     Retrieve users.
     """
     users = crud.user.get_multi(skip=skip, limit=limit)
-    print(users)
     return users
 
 
@@ -44,7 +43,7 @@ def create_user(
             status_code=400,
             detail="The user with this username already exists in the system.",
         )
-    user = crud.user.create(user_in=user_in)
+    user = crud.user.create(obj_in=user_in)
     # if settings.EMAILS_ENABLED and user_in.email:
     #     send_new_account_email(
     #         email_to=user_in.email, username=user_in.email, password=user_in.password
@@ -71,7 +70,7 @@ def update_user_me(
         user_in.full_name = full_name
     if email is not None:
         user_in.email = email
-    user = crud.user.update(email=email, user_in=user_in)
+    user = crud.user.update(email=user_in.email, obj_in=user_in)
     return user
 
 
@@ -107,7 +106,7 @@ def create_user_open(
             detail="The user with this username already exists in the system",
         )
     user_in = UserCreate(password=password, email=email, full_name=full_name)
-    user = crud.user.create(user_in=user_in)
+    user = crud.user.create(obj_in=user_in)
     return user
 
 

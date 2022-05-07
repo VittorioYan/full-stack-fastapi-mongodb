@@ -1,5 +1,6 @@
 import json
 import re
+from tkinter import N
 from pymongo.database import Database
 from typing import List, Optional,Union,Dict,Any,TypeVar,Generic,Type
 from fastapi.encoders import jsonable_encoder
@@ -35,9 +36,8 @@ class CRUDBase(Generic[ModelType,CreateSchemaType,UpdateSchemaType]):
 
     def create(self,obj_in:Type[CreateSchemaType]):
         obj_in_data = jsonable_encoder(obj_in)
-        db_obj = self.model(**obj_in_data)
-        self.collection.insert_one(db_obj.dict())
-        return db_obj
+        db_obj = self.collection.insert_one(obj_in_data)
+        return self.get(db_obj.inserted_id)
 
     def update(
         self,
@@ -48,7 +48,7 @@ class CRUDBase(Generic[ModelType,CreateSchemaType,UpdateSchemaType]):
             update_data = obj_in
         else:
             update_data = obj_in.dict(exclude_unset=True)
-
+        update_data = dict(filter(lambda x:x[1] is not None,update_data.items()))
         self.collection.update_one({'_id':db_obj.id},{'$set':update_data})
         return self.get(db_obj.id)
 

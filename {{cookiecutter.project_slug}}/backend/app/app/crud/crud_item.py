@@ -13,17 +13,17 @@ from app.models.item import *
 
 class CRUDItem(CRUDBase[ItemInDB,ItemCreate,ItemUpdate]):
     def create_with_owner(
-        self, *, item_in: ItemCreate, owner_email: str
+        self, *, obj_in: ItemCreate, owner_id: str
     ) -> Item:
-        item_in_data = jsonable_encoder(item_in)
-        item_in_data['owner_email'] = owner_email
+        item_in_data = jsonable_encoder(obj_in)
+        item_in_data['owner_id'] = owner_id
         new_item = self.collection.insert_one(item_in_data)
         return self.get(new_item.inserted_id)
 
     def get_multi_by_owner(
-        self, *, owner_email: str, skip: int = 0, limit: int = 100
+        self, *, owner_id: str, skip: int = 0, limit: int = 100
     ) -> List[Item]:
-        results = self.collection.find({"owner_email":owner_email}).skip(skip).limit(limit)
+        results = self.collection.find({"owner_id":owner_id}).skip(skip).limit(limit)
         return doc_results_to_model(results,Item)
 
     

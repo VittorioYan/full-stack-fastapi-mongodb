@@ -1,4 +1,5 @@
 from bson.objectid import ObjectId
+from typing import Any,Union
 
 
 class PyObjectId(ObjectId):
@@ -15,3 +16,18 @@ class PyObjectId(ObjectId):
     @classmethod
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string")
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other,ObjectId):
+            return self.__id == other.binary
+        if isinstance(other,str):
+            return str(self) == other
+        return NotImplemented
+
+    def __ne__(self, other: Any) -> bool:
+        if isinstance(other,ObjectId):
+            return self.__id != other.binary
+        if isinstance(other,str):
+            return str(self) != other
+        return NotImplemented
+
