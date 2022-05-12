@@ -21,7 +21,7 @@ export const actions = {
             await dispatchCheckApiError(context, error);
         }
     },
-    async actionUpdateUser(context: MainContext, payload: { id: number, user: IUserProfileUpdate }) {
+    async actionUpdateUser(context: MainContext, payload: { id: string, user: IUserProfileUpdate }) {
         try {
             const loadingNotification = { content: 'saving', showProgress: true };
             commitAddNotification(context, loadingNotification);

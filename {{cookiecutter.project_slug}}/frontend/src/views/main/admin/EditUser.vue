@@ -7,15 +7,14 @@
       <v-card-text>
         <template>
           <div class="my-3">
-            <div class="subheading secondary--text text--lighten-2">Username</div>
+            <div class="subheading secondary--text text--lighten-2">Email</div>
             <div
               class="title primary--text text--darken-2"
-              v-if="user"
-            >{{user.email}}</div>
-            <div
+            >{{this.$router.currentRoute.params.id}}</div>
+            <!-- <div
               class="title primary--text text--darken-2"
               v-else
-            >-----</div>
+            >-----</div> -->
           </div>
           <v-form
             v-model="valid"
@@ -27,7 +26,7 @@
               v-model="fullName"
               required
             ></v-text-field>
-            <v-text-field
+            <!-- <v-text-field
               label="E-mail"
               type="email"
               v-model="email"
@@ -35,7 +34,7 @@
               data-vv-name="email"
               :error-messages="errors.collect('email')"
               required
-            ></v-text-field>
+            ></v-text-field> -->
             <div class="subheading secondary--text text--lighten-2">User is superuser <span v-if="isSuperuser">(currently is a superuser)</span><span v-else>(currently is not a superuser)</span></div>
             <v-checkbox
               label="Is Superuser"
@@ -127,7 +126,7 @@ export default class EditUser extends Vue {
     this.$validator.reset();
     if (this.user) {
       this.fullName = this.user.full_name;
-      this.email = this.user.email;
+      // this.email = this.user.email;
       this.isActive = this.user.is_active;
       this.isSuperuser = this.user.is_superuser;
     }
@@ -151,13 +150,13 @@ export default class EditUser extends Vue {
       if (this.setPassword) {
         updatedProfile.password = this.password1;
       }
-      await dispatchUpdateUser(this.$store, { id: this.user!.id, user: updatedProfile });
+      await dispatchUpdateUser(this.$store, { id: this.user!.email, user: updatedProfile });
       this.$router.push('/main/admin/users');
     }
   }
 
   get user() {
-    return readAdminOneUser(this.$store)(+this.$router.currentRoute.params.id);
+    return readAdminOneUser(this.$store)(this.$router.currentRoute.params.id);
   }
 }
 </script>

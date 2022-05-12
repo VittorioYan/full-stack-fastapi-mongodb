@@ -4,8 +4,8 @@ import { State } from '../state';
 
 export const getters = {
     adminUsers: (state: AdminState) => state.users,
-    adminOneUser: (state: AdminState) => (userId: number) => {
-        const filteredUsers = state.users.filter((user) => user.id === userId);
+    adminOneUser: (state: AdminState) => (userId: string) => {
+        const filteredUsers = state.users.filter((user) => user.email === userId);
         if (filteredUsers.length > 0) {
             return { ...filteredUsers[0] };
         }
