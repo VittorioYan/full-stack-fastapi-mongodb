@@ -13,5 +13,5 @@ def init_db():
             password=settings.FIRST_SUPERUSER_PASSWORD,
             is_superuser=True,
         )
-        user = crud.user.create(user_in=user_in)
+        user = crud.user.create(obj_in=user_in)
     

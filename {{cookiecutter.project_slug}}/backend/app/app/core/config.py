@@ -35,9 +35,9 @@ class Settings(BaseSettings):
     #     return v
 
     MONGODB_HOST:str
-    MONGODB_PORT:str
-    MONGODB_USERNAME:str
-    MONGODB_PASSWORD:str
+    MONGODB_PORT:str = '27017'
+    MONGO_INITDB_ROOT_USERNAME:str
+    MONGO_INITDB_ROOT_PASSWORD:str
     MONGODB_DB:str
 
     SMTP_TLS: bool = True

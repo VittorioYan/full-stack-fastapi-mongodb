@@ -25,8 +25,8 @@ def get_default_client():
         default_client = get_client(
             settings.MONGODB_HOST,
             settings.MONGODB_PORT,
-            settings.MONGODB_USERNAME,
-            settings.MONGODB_PASSWORD
+            settings.MONGO_INITDB_ROOT_USERNAME,
+            settings.MONGO_INITDB_ROOT_PASSWORD
         )
     return default_client
 
